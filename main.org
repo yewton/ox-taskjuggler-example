@@ -1,0 +1,147 @@
+#+TITLE: Example of taskjuggler project
+#+PROPERTY: Effort_ALL 2d 5d 10d 20d 30d 35d 50d 
+#+PROPERTY: allocate_ALL dev doc test
+#+COLUMNS: %30ITEM(Task) %Effort %allocate %BLOCKER %ORDERED
+
+* Accounting Software                                        :taskjuggler_project:
+
+** Specification
+   :PROPERTIES:
+   :Effort:   20d
+   :BLOCKER:  start
+   :allocate: dev
+   :END:
+
+** Software Development
+   :PROPERTIES:
+   :ORDERED:  t
+   :BLOCKER:  previous-sibling
+   :priority: 1000
+   :allocate: dev
+   :END:
+
+*** Database coupling
+    :PROPERTIES:
+    :Effort:   20d
+    :END:
+
+*** Back-End Functions
+    :PROPERTIES:
+    :Effort:   30d
+    :task_id:  back_end
+    :END:
+
+*** Graphical User Interface
+    :PROPERTIES:
+    :Effort:   35d
+    :allocate: paul, seb
+    :END:
+
+** Software testing
+   :PROPERTIES:
+   :ORDERED:  t
+   :BLOCKER:  previous-sibling
+   :allocate: test
+   :END:
+*** Alpha Test
+    :PROPERTIES:
+    :Effort:   5d
+    :task_id:  alpha
+    :END:
+
+*** Beta Test
+    :PROPERTIES:
+    :Effort:   20d
+    :task_id:  beta
+    :allocate: test, paul
+    :END:
+
+** Manual
+   :PROPERTIES:
+   :Effort:   50d
+   :task_id:  manual
+   :BLOCKER:  start
+   :allocate: doc
+   :END:
+
+** Milestones
+*** Project start
+    :PROPERTIES:
+    :task_id:  start
+    :END:
+
+*** Technology Preview
+    :PROPERTIES:
+    :BLOCKER:  back_end
+    :END:
+
+*** Beta version
+    :PROPERTIES:
+    :BLOCKER:  alpha
+    :END:
+
+*** Ship Product to Customer
+    :PROPERTIES:
+    :BLOCKER:  beta manual
+    :END:
+
+
+* Resources                                         :taskjuggler_resource:
+** Developers
+   :PROPERTIES:
+   :resource_id: dev
+   :END:
+*** Paul Smith
+    :PROPERTIES:
+    :resource_id: paul
+    :END:
+*** Sébastien Bono
+    :PROPERTIES:
+    :resource_id: seb
+    :END:
+*** Klaus Müller
+
+** Others
+*** Peter Murphy
+    :PROPERTIES:
+    :resource_id: doc
+    :limits:   { dailymax 6.4h }
+    :END:
+*** Dim Sung
+    :PROPERTIES:
+    :resource_id: test
+    :END:
+
+* Reports                                                :taskjuggler_report:
+
+** Plan
+:PROPERTIES:
+:REPORT_KIND: textreport report
+:formats:  html
+:header: '== Example Project =='
+:center: "[[Project Plan]] | [[Resource Graph]]"
+:END:
+
+
+*** Project Plan
+:PROPERTIES:
+:REPORT_KIND: taskreport plan
+:headline: "Project Plan"
+:columns:  bsi, name, start, end, effort, chart
+:loadunit: shortauto
+:hideresource: 1
+:END:
+
+*** Resource Graph
+:PROPERTIES:
+:REPORT_KIND: resourcereport resourceGraph
+:headline: "Resource Allocation Graph"
+:columns:  no, name, effort, weekly
+:loadunit: shortauto
+:hidetask: ~(isleaf() & isleaf_())
+:sorttasks: plan.start.up
+:END:
+
+# Local Variables:
+# org-taskjuggler-valid-report-attributes: (header footer center headline columns definitions timeformat hideresource hidetask loadunit sorttasks formats period)
+# End:
